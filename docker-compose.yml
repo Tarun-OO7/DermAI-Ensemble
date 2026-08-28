@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - medical_diagnostic_data:/app/data
+      - ./backend/uploads:/app/uploads
+      - ./frontend/constants.json:/app/constants.json
+    environment:
+      - DATABASE_URL=sqlite:////app/data/medical_diagnostic.db
+      - API_KEY=dev-secret-key
+      - ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+      - ENSEMBLE_MODE=true
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - API_URL=http://backend:8000/api
+      - API_KEY=dev-secret-key
+    depends_on:
+      - backend
+
+volumes:
+  medical_diagnostic_data:
