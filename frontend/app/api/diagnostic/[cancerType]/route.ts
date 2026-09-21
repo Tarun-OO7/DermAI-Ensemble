@@ -6,11 +6,7 @@ export async function POST(
 ) {
   const { cancerType } = params;
   const baseUrl = process.env.API_URL || 'http://localhost:8000/api';
-  const apiKey = process.env.API_KEY;
-
-  if (!apiKey) {
-    return NextResponse.json({ detail: 'Server misconfiguration: API_KEY missing' }, { status: 500 });
-  }
+  const apiKey = process.env.API_KEY || 'dev-secret-key';
 
   try {
     const formData = await request.formData();
@@ -26,6 +22,6 @@ export async function POST(
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
-    return NextResponse.json({ detail: 'Failed to proxy request' }, { status: 500 });
+    return NextResponse.json({ detail: 'Failed to proxy request to backend' }, { status: 500 });
   }
 }
