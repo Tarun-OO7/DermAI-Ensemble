@@ -88,8 +88,3 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 - **Frontend Jest**: `npx jest` (Component rendering & PDF generator tests)
 - **Model Evaluation**: `python evaluate_model.py` (Deterministic benchmark on held-out dataset)
 
----
-
-## 👥 Contributors
-
-- **Nagarjun** ([@nagarjuntm89-png](https://github.com/nagarjuntm89-png)) — Creator & Lead Developer
