@@ -1,6 +1,9 @@
 {
   "version": "1.0.0-ham10000",
   "input_size": 224,
+  "temperature": 1.0,
+  "use_tta": false,
+  "prior_tau": 0.0,
   "mean": [
     0.485,
     0.456,

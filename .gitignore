@@ -6,3 +6,20 @@ __pycache__/
 *.pyc
 *.db
 backend/uploads/
+
+# Training and Evaluation Datasets
+backend/data/
+backend/evaluation_dataset/
+backend/debug_crops/
+
+# Intermediate experimental weights (keep only active production weights)
+backend/models_weights/*
+!backend/models_weights/ham10000_effnet.pth
+!backend/models_weights/best_model.pt
+!backend/models_weights/best_model_resnet50.pt
+
+# Benchmark and search reports
+backend/evaluation_report*.json
+backend/calibration_report.json
+backend/systematic_search_results.json
+backend/training_progress.json

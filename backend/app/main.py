@@ -45,3 +45,12 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 # Include routers
 app.include_router(health.router, prefix="/api/health", tags=["health"])
 app.include_router(diagnostic.router, prefix="/api/diagnostic", tags=["diagnostic"])
+
+@app.get("/")
+def root():
+    return {
+        "message": "DermAI Backend API is running",
+        "docs_url": "/docs",
+        "health_url": "/api/health"
+    }
+
