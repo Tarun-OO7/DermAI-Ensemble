@@ -14,11 +14,18 @@ export class ApiError extends Error {
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
 export async function analyzeSkinPhoto(
-  file: File,
-  timeoutMs: number = 20000
+  files: File[] | File,
+  timeoutMs: number = 30000
 ): Promise<DiagnosticResult> {
   const formData = new FormData();
-  formData.append('file', file);
+  const fileArray = Array.isArray(files) ? files : [files];
+
+  if (fileArray.length === 1) {
+    formData.append('file', fileArray[0]);
+  }
+  fileArray.forEach((f) => {
+    formData.append('files', f);
+  });
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);

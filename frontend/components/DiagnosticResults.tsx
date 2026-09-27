@@ -42,6 +42,7 @@ export default function DiagnosticResults({
   errorMessage,
 }: DiagnosticResultsProps) {
   const { t, tArray } = useLanguage();
+  const [selectedAngleTab, setSelectedAngleTab] = useState<number | 'consensus'>('consensus');
   const [showDoctorQuestions, setShowDoctorQuestions] = useState(false);
   const [showDetailedGuide, setShowDetailedGuide] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
@@ -74,7 +75,7 @@ export default function DiagnosticResults({
         <button
           type="button"
           onClick={onReset}
-          className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-2xl transition-all active:scale-95"
+          className="w-full py-3 px-4 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold rounded-2xl transition-all active:scale-95 cursor-pointer"
         >
           {t('results.tryAgain')}
         </button>
@@ -154,12 +155,34 @@ export default function DiagnosticResults({
     );
   }
 
-  // 4. Finished Result State - Multilingual Lookups
-  const diseaseKey = result.prediction.toLowerCase();
+  // 4. Multi-Angle State Resolution
+  const anglesList = result.multi_angle?.angle_breakdown || result.multi_angle?.angles || [];
+  const isMultiAngle = Boolean(result.multi_angle && result.multi_angle.total_angles > 1 && anglesList.length > 0);
+  const activeAngle = (isMultiAngle && typeof selectedAngleTab === 'number' && anglesList[selectedAngleTab])
+    ? anglesList[selectedAngleTab]
+    : null;
+
+  const currentPrediction = activeAngle ? activeAngle.prediction : result.prediction;
+  const currentConfidenceScore = activeAngle ? activeAngle.confidence_score : result.confidence_score;
+  const currentProbabilities = activeAngle ? activeAngle.probabilities : result.probabilities;
+  const currentHeatmapImage = activeAngle ? activeAngle.heatmap_image : result.heatmap_image;
+
+  const fullImageUrl = result.image_url.startsWith('http')
+    ? result.image_url
+    : `http://localhost:8000${result.image_url}`;
+
+  const currentRawImageUrl = activeAngle
+    ? (activeAngle.image_url.startsWith('http')
+        ? activeAngle.image_url
+        : `http://localhost:8000${activeAngle.image_url}`)
+    : (localImagePreview || fullImageUrl);
+
+  // Multilingual Lookups for Current View
+  const diseaseKey = currentPrediction.toLowerCase();
   const fallbackInfo = DISEASE_MAP[diseaseKey] || {
     code: diseaseKey,
-    friendlyName: result.prediction,
-    clinicalName: result.prediction,
+    friendlyName: currentPrediction,
+    clinicalName: currentPrediction,
     urgency: 'routine',
     type: 'benign',
     categoryBadge: 'Detected Spot',
@@ -215,7 +238,7 @@ export default function DiagnosticResults({
     ? tArray('doctorQuestionsList')
     : GENERAL_DOCTOR_QUESTIONS;
 
-  const confidencePercent = Math.round(result.confidence_score * 100);
+  const confidencePercent = Math.round(currentConfidenceScore * 100);
   const isLowConfidence = confidencePercent < 70;
   const isHighUrgency = fallbackInfo.urgency === 'high';
   const isModerateUrgency = fallbackInfo.urgency === 'moderate';
@@ -232,8 +255,8 @@ export default function DiagnosticResults({
   let top2Pct = 0;
   let otherRemainderPct = 0;
 
-  if (result.probabilities) {
-    const sorted = Object.entries(result.probabilities).sort((a, b) => b[1] - a[1]);
+  if (currentProbabilities) {
+    const sorted = Object.entries(currentProbabilities).sort((a, b) => b[1] - a[1]);
     if (sorted[0]) {
       const k1 = sorted[0][0].toLowerCase();
       topMatchName = t(`diseases.${k1}.friendlyName`) !== `diseases.${k1}.friendlyName`
@@ -258,10 +281,6 @@ export default function DiagnosticResults({
     hour: '2-digit',
     minute: '2-digit',
   });
-
-  const fullImageUrl = result.image_url.startsWith('http')
-    ? result.image_url
-    : `http://localhost:8000${result.image_url}`;
 
   const handleDownloadPdf = async () => {
     try {
@@ -293,9 +312,117 @@ export default function DiagnosticResults({
         </div>
 
         <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 px-2.5 py-1 rounded-full border border-blue-200/80 dark:border-blue-800/60">
-          {t('results.badge')}
+          {isMultiAngle ? (t('results.multiAngle.consensusBadge') || 'Multi-Angle Consensus') : t('results.badge')}
         </span>
       </div>
+
+      {/* Multi-Angle Tab Switcher (When 2 to 4 angles are uploaded) */}
+      {isMultiAngle && (
+        <div className="bg-slate-100/90 dark:bg-slate-800/90 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-wrap gap-1.5">
+          <button
+            type="button"
+            onClick={() => setSelectedAngleTab('consensus')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+              selectedAngleTab === 'consensus'
+                ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/30'
+                : 'bg-transparent text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5" />
+            <span>{t('results.multiAngle.tabConsensus') || 'Consensus Synthesis'}</span>
+          </button>
+
+          {anglesList.map((angle, idx) => {
+            const isTabActive = selectedAngleTab === idx;
+            return (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setSelectedAngleTab(idx)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  isTabActive
+                    ? 'bg-blue-600 text-white shadow-sm shadow-blue-500/30'
+                    : 'bg-transparent text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700'
+                }`}
+              >
+                <span
+                  className={`w-4 h-4 rounded-full text-[10px] font-black flex items-center justify-center ${
+                    isTabActive
+                      ? 'bg-white/20 text-white'
+                      : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
+                  }`}
+                >
+                  {idx + 1}
+                </span>
+                <span className="truncate max-w-[120px]">
+                  {angle.label || t('results.multiAngle.tabAngle', { index: (idx + 1).toString() }) || `Angle ${idx + 1}`}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Viewing Specific Angle Banner */}
+      {activeAngle && (
+        <div className="flex items-center justify-between p-3 bg-blue-50/80 dark:bg-blue-950/40 rounded-2xl border border-blue-200 dark:border-blue-800/60 text-xs">
+          <div className="flex items-center gap-2">
+            <Camera className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+            <span className="font-bold text-slate-900 dark:text-white">
+              {t('results.multiAngle.viewingAngle', {
+                index: (activeAngle.angle_index || 1).toString(),
+                label: activeAngle.label || `Angle ${activeAngle.angle_index}`,
+              }) || `Viewing Perspective #${activeAngle.angle_index}: ${activeAngle.label}`}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setSelectedAngleTab('consensus')}
+            className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+          >
+            ← {t('results.multiAngle.tabConsensus') || 'Back to Consensus'}
+          </button>
+        </div>
+      )}
+
+      {/* Multi-Angle Safety Override Alert (Melanoma safeguard) */}
+      {selectedAngleTab === 'consensus' && result.multi_angle?.melanoma_safety_override && (
+        <div className="p-4 bg-rose-500/10 dark:bg-rose-950/40 rounded-2xl border border-rose-500/30 text-xs text-rose-950 dark:text-rose-200 space-y-1 animate-in fade-in">
+          <div className="flex items-center gap-2 font-bold text-rose-700 dark:text-rose-300">
+            <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+            <span>Safety Priority: High-Risk Lesion Identified</span>
+          </div>
+          <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+            {t('results.multiAngle.overrideAlert') ||
+              'High-risk Melanoma pattern detected on 1 or more perspectives — prioritized for safety'}
+          </p>
+        </div>
+      )}
+
+      {/* Multi-Angle Consistency / Agreement Rate Box (Consensus View) */}
+      {selectedAngleTab === 'consensus' && isMultiAngle && result.multi_angle && (
+        <div className="p-3 bg-blue-50/70 dark:bg-blue-950/30 rounded-2xl border border-blue-200/70 dark:border-blue-800/50 flex items-center justify-between text-xs text-blue-950 dark:text-blue-200">
+          <div className="flex items-center gap-2 min-w-0">
+            <ShieldCheck className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+            <span className="font-semibold flex-shrink-0">
+              {t('results.multiAngle.evidenceAgreement') || 'Perspective Consistency:'}
+            </span>
+            <span className="text-slate-600 dark:text-slate-300 truncate">
+              {result.multi_angle.agreement_rate === 1.0
+                ? (t('results.multiAngle.consistentPattern', { count: result.multi_angle.total_angles.toString() }) ||
+                    `All ${result.multi_angle.total_angles} angles show a consistent visual pattern`)
+                : (t('results.multiAngle.featuresConsistent', {
+                    count: Math.round(result.multi_angle.agreement_rate * result.multi_angle.total_angles).toString(),
+                    total: result.multi_angle.total_angles.toString(),
+                  }) ||
+                    `${Math.round(result.multi_angle.agreement_rate * result.multi_angle.total_angles)} of ${result.multi_angle.total_angles} angles show consistent visual features`)}
+            </span>
+          </div>
+          <span className="font-mono font-bold text-blue-700 dark:text-blue-300 bg-white dark:bg-slate-800 px-2.5 py-0.5 rounded-lg border border-blue-200 dark:border-slate-700 ml-2 flex-shrink-0">
+            {Math.round(result.multi_angle.agreement_rate * 100)}%
+          </span>
+        </div>
+      )}
 
       {/* Main Condition Result Banner */}
       <div
@@ -353,17 +480,62 @@ export default function DiagnosticResults({
         </div>
       </div>
 
+      {/* Multi-Angle Perspectives Gallery Bar (in Consensus Synthesis View) */}
+      {selectedAngleTab === 'consensus' && isMultiAngle && anglesList.length > 0 && (
+        <div className="space-y-2 pt-1">
+          <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+            Uploaded Perspectives ({anglesList.length}) — Click to Inspect
+          </span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {anglesList.map((ang, idx) => {
+              const angClassKey = ang.prediction.toLowerCase();
+              const angFriendly = t(`diseases.${angClassKey}.friendlyName`) !== `diseases.${angClassKey}.friendlyName`
+                ? t(`diseases.${angClassKey}.friendlyName`)
+                : (DISEASE_MAP[angClassKey]?.friendlyName || ang.prediction);
+              const angImg = ang.image_url.startsWith('http')
+                ? ang.image_url
+                : `http://localhost:8000${ang.image_url}`;
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setSelectedAngleTab(idx)}
+                  className="p-2 bg-slate-50 hover:bg-blue-50/70 dark:bg-slate-800/50 dark:hover:bg-blue-950/30 rounded-2xl border border-slate-200/80 dark:border-slate-700 text-left transition-all group cursor-pointer"
+                >
+                  <div className="aspect-square rounded-xl bg-slate-200 dark:bg-slate-700 overflow-hidden mb-1.5 relative border border-slate-300/80 dark:border-slate-600">
+                    <img
+                      src={angImg}
+                      alt={`Angle ${idx + 1}`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                    />
+                    <span className="absolute top-1 left-1 bg-slate-900/80 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">
+                      #{idx + 1}
+                    </span>
+                  </div>
+                  <div className="text-[10px] font-bold text-slate-800 dark:text-slate-200 truncate">
+                    {ang.label || `Angle ${idx + 1}`}
+                  </div>
+                  <div className="text-[10px] text-blue-600 dark:text-blue-400 font-semibold truncate">
+                    {angFriendly} &bull; {Math.round(ang.confidence_score * 100)}%
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Real Grad-CAM AI Explainability Attention Overlay */}
-      {result.heatmap_image && (
+      {currentHeatmapImage && (
         <GradCamOverlay
-          rawImageUrl={localImagePreview || fullImageUrl}
-          heatmapImageUrl={result.heatmap_image}
+          rawImageUrl={currentRawImageUrl}
+          heatmapImageUrl={currentHeatmapImage}
           predictedClass={friendlyName}
         />
       )}
 
       {/* Non-Skin Photo Heuristic Advisory (Soft Safeguard) */}
-      {result.is_potential_non_skin && (
+      {(activeAngle ? activeAngle.is_potential_non_skin : result.is_potential_non_skin) && (
         <div className="p-4 bg-blue-50 dark:bg-blue-950/40 rounded-2xl border border-blue-200 dark:border-blue-800/60 flex items-start gap-3 text-xs text-blue-900 dark:text-blue-200 animate-in fade-in">
           <HelpCircle className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
           <div className="space-y-1">
@@ -497,7 +669,7 @@ export default function DiagnosticResults({
       <div className="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800">
         <div className="flex justify-between items-center mb-1.5">
           <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-            {t('results.aiCertainty')}
+            {activeAngle ? (t('results.multiAngle.angleCertainty') || 'Perspective Confidence') : t('results.aiCertainty')}
           </span>
           <span className="text-sm font-black text-slate-900 dark:text-white font-mono">
             {confidencePercent}%

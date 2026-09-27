@@ -6,6 +6,32 @@ export interface PatientSymptomContext {
   symptoms?: string[];
 }
 
+export interface AngleAnalysis {
+  angle_index: number;
+  label?: string;
+  image_url: string;
+  filename?: string;
+  prediction: string;
+  confidence_score: number;
+  probabilities: Record<string, number>;
+  heatmap_image?: string;
+  is_potential_non_skin?: boolean;
+}
+
+export interface MultiAngleConsensus {
+  total_angles: number;
+  agreement_rate: number;
+  agreement_count: number;
+  primary_prediction: string;
+  primary_confidence?: number;
+  average_probabilities?: Record<string, number>;
+  has_high_risk_conflict: boolean;
+  melanoma_safety_override: boolean;
+  consensus_message: string;
+  angle_breakdown: AngleAnalysis[];
+  angles?: AngleAnalysis[];
+}
+
 export interface DiagnosticResult {
   id: number;
   cancer_type: string;
@@ -15,8 +41,10 @@ export interface DiagnosticResult {
   heatmap_image?: string;
   is_potential_non_skin?: boolean;
   image_url: string;
+  image_urls?: string[];
   created_at: string;
   symptom_context?: PatientSymptomContext;
+  multi_angle?: MultiAngleConsensus;
 }
 
 export type UploadState = 'idle' | 'uploading' | 'success' | 'error';

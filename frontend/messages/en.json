@@ -75,8 +75,21 @@
       "changedShape": "Changed shape"
     },
     "actionBtn": "Run Skin Analysis",
+    "actionBtnMulti": "Run Multi-Angle Analysis ({count} Angles)",
     "analyzingBtn": "Analyzing Skin Patterns...",
-    "privacyNote": "Privacy note: Your photo and details stay private on your local server."
+    "privacyNote": "Privacy note: Your photo and details stay private on your local server.",
+    "multiAngle": {
+      "title": "Multi-Angle Upload",
+      "subtitle": "Add up to 4 angles of the same spot (e.g., top-down, side, close-up) for multi-perspective evaluation.",
+      "addAngle": "Add Another Angle (+)",
+      "angleLimit": "Maximum 4 angles reached",
+      "angleLabel1": "Angle 1: Top-Down (Primary)",
+      "angleLabel2": "Angle 2: 45° Side View",
+      "angleLabel3": "Angle 3: Close-Up / Macro",
+      "angleLabel4": "Angle 4: Additional Perspective",
+      "removeAngle": "Remove",
+      "retake": "Retake"
+    }
   },
   "camera": {
     "title": "Guided Camera Capture",
@@ -138,8 +151,20 @@
       "title": "Photo Framing Advisory",
       "desc": "This photo may not clearly show a skin spot — for best results, make sure the lesion fills most of the frame in good lighting."
     },
-    "downloadPdf": "Download Analysis Report (PDF)",
+    "downloadPdf": "Download AI Analysis Report (PDF)",
     "resetBtn": "Analyze Another Photo",
+    "multiAngle": {
+      "consensusBadge": "Multi-Angle Consensus",
+      "tabConsensus": "Consensus Synthesis",
+      "tabAngle": "Angle {index}",
+      "evidenceAgreement": "Perspective Consistency:",
+      "consistentPattern": "All {count} angles show a consistent visual pattern",
+      "featuresConsistent": "{count} of {total} angles show consistent visual features",
+      "overrideAlert": "High-risk Melanoma pattern detected on 1 or more perspectives — prioritized for safety",
+      "viewingAngle": "Viewing Perspective {index}: {label}",
+      "angleCertainty": "Perspective Confidence",
+      "angleHeatmap": "Perspective AI Attention (Grad-CAM)"
+    },
     "urgencyBadges": {
       "high": "High Urgency",
       "moderate": "Moderate Urgency",

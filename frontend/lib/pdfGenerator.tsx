@@ -14,10 +14,10 @@ import { DiagnosticResult, DISEASE_MAP, GENERAL_DOCTOR_QUESTIONS } from '../type
 
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
+    padding: 28,
     backgroundColor: '#FFFFFF',
     fontFamily: 'Helvetica',
-    fontSize: 9,
+    fontSize: 8.5,
     color: '#1E293B',
   },
   // Top Prominent Medical Notice Banner
@@ -25,21 +25,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF1F2',
     borderWidth: 1,
     borderColor: '#FECDD3',
-    borderRadius: 6,
-    padding: 9,
-    marginBottom: 14,
+    borderRadius: 5,
+    padding: 8,
+    marginBottom: 10,
   },
   topDisclaimerTitle: {
     color: '#9F1239',
-    fontSize: 9,
+    fontSize: 8.5,
     fontFamily: 'Helvetica-Bold',
     marginBottom: 2,
     textTransform: 'uppercase',
   },
   topDisclaimerText: {
     color: '#881337',
-    fontSize: 8,
-    lineHeight: 1.35,
+    fontSize: 7.5,
+    lineHeight: 1.3,
   },
   // Header Section
   headerContainer: {
@@ -48,61 +48,61 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1.5,
     borderBottomColor: '#E2E8F0',
-    paddingBottom: 10,
-    marginBottom: 12,
+    paddingBottom: 8,
+    marginBottom: 10,
   },
   brandTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: 'Helvetica-Bold',
     color: '#1D4ED8',
   },
   brandSubtitle: {
-    fontSize: 8,
+    fontSize: 7.5,
     color: '#64748B',
-    marginTop: 2,
+    marginTop: 1,
   },
   reportMetaRight: {
     alignItems: 'flex-end',
   },
   reportHeading: {
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: 'Helvetica-Bold',
     color: '#0F172A',
   },
   reportMetaText: {
-    fontSize: 8,
+    fontSize: 7.5,
     color: '#64748B',
-    marginTop: 1.5,
+    marginTop: 1,
   },
   // Section Box
   sectionCard: {
     backgroundColor: '#F8FAFC',
     borderWidth: 1,
     borderColor: '#E2E8F0',
-    borderRadius: 6,
-    padding: 10,
-    marginBottom: 10,
+    borderRadius: 5,
+    padding: 8,
+    marginBottom: 8,
   },
   sectionTitle: {
-    fontSize: 9.5,
+    fontSize: 8.5,
     fontFamily: 'Helvetica-Bold',
     color: '#0F172A',
-    marginBottom: 6,
+    marginBottom: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#E2E8F0',
-    paddingBottom: 3,
+    paddingBottom: 2,
     textTransform: 'uppercase',
   },
   // Scan Overview 2-Column Layout
   scanOverviewRow: {
     flexDirection: 'row',
-    gap: 12,
+    gap: 10,
   },
   scanImageContainer: {
-    width: 100,
-    height: 100,
+    width: 85,
+    height: 85,
     backgroundColor: '#E2E8F0',
-    borderRadius: 6,
+    borderRadius: 5,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: '#CBD5E1',
@@ -120,14 +120,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    marginBottom: 3,
+    marginBottom: 2,
   },
   urgencyBadge: {
-    fontSize: 7.5,
+    fontSize: 7,
     fontFamily: 'Helvetica-Bold',
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 4,
+    paddingVertical: 1.5,
+    paddingHorizontal: 5,
+    borderRadius: 3,
     textTransform: 'uppercase',
   },
   urgencyHigh: {
@@ -143,55 +143,101 @@ const styles = StyleSheet.create({
     color: '#166534',
   },
   predictionName: {
-    fontSize: 13,
+    fontSize: 12,
     fontFamily: 'Helvetica-Bold',
     color: '#0F172A',
-    marginBottom: 2,
+    marginBottom: 1.5,
   },
   clinicalClassification: {
-    fontSize: 8.5,
+    fontSize: 8,
     color: '#475569',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   confidenceLine: {
-    fontSize: 9,
+    fontSize: 8.5,
     fontFamily: 'Helvetica-Bold',
     color: '#1E293B',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   nextStepText: {
-    fontSize: 8,
+    fontSize: 7.5,
     color: '#334155',
-    lineHeight: 1.3,
+    lineHeight: 1.25,
+  },
+  // Multi-Angle Perspectives Card
+  multiAngleGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 4,
+  },
+  multiAngleItem: {
+    width: '23.5%',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+    borderRadius: 4,
+    padding: 4,
+  },
+  multiAngleLabel: {
+    fontSize: 6.5,
+    fontFamily: 'Helvetica-Bold',
+    color: '#1D4ED8',
+    textTransform: 'uppercase',
+    marginBottom: 2,
+  },
+  multiAnglePrediction: {
+    fontSize: 7.5,
+    fontFamily: 'Helvetica-Bold',
+    color: '#0F172A',
+    marginBottom: 1,
+  },
+  multiAngleConfidence: {
+    fontSize: 7,
+    color: '#64748B',
+  },
+  overrideWarningBox: {
+    backgroundColor: '#FFE4E6',
+    borderWidth: 1,
+    borderColor: '#FECDD3',
+    borderRadius: 4,
+    padding: 5,
+    marginTop: 5,
+    marginBottom: 2,
+  },
+  overrideWarningText: {
+    color: '#9F1239',
+    fontSize: 7.5,
+    fontFamily: 'Helvetica-Bold',
   },
   // Confidence Breakdown
   breakdownContainer: {
     backgroundColor: '#FFFBEB',
     borderWidth: 1,
     borderColor: '#FDE68A',
-    borderRadius: 6,
-    padding: 8,
-    marginBottom: 10,
+    borderRadius: 5,
+    padding: 6,
+    marginBottom: 8,
   },
   breakdownTitle: {
-    fontSize: 8.5,
+    fontSize: 8,
     fontFamily: 'Helvetica-Bold',
     color: '#92400E',
-    marginBottom: 3,
+    marginBottom: 2,
     textTransform: 'uppercase',
   },
   breakdownExpl: {
-    fontSize: 7.5,
+    fontSize: 7,
     color: '#78350F',
-    lineHeight: 1.3,
-    marginBottom: 5,
+    lineHeight: 1.25,
+    marginBottom: 4,
   },
   breakdownRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 1.5,
-    fontSize: 8,
+    paddingVertical: 1,
+    fontSize: 7.5,
   },
   breakdownLabel: {
     color: '#451A03',
@@ -201,49 +247,49 @@ const styles = StyleSheet.create({
     color: '#1E293B',
   },
   breakdownTip: {
-    fontSize: 7,
+    fontSize: 6.5,
     color: '#92400E',
-    marginTop: 4,
+    marginTop: 3,
     borderTopWidth: 1,
     borderTopColor: '#FEF3C7',
-    paddingTop: 3,
+    paddingTop: 2,
   },
   // Patient Questionnaire
   contextGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 8,
+    gap: 6,
   },
   contextItem: {
-    width: '31%',
+    width: '31.5%',
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: '#E2E8F0',
     borderRadius: 4,
-    padding: 5,
+    padding: 4,
   },
   contextItemLabel: {
-    fontSize: 7,
+    fontSize: 6.5,
     color: '#64748B',
     textTransform: 'uppercase',
     marginBottom: 1,
   },
   contextItemVal: {
-    fontSize: 8,
+    fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
     color: '#0F172A',
   },
   // Doctor Questions
   questionList: {
-    gap: 3,
+    gap: 2.5,
   },
   questionItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 4,
-    fontSize: 8,
+    gap: 3,
+    fontSize: 7.5,
     color: '#334155',
-    lineHeight: 1.3,
+    lineHeight: 1.25,
   },
   questionBullet: {
     color: '#2563EB',
@@ -252,18 +298,18 @@ const styles = StyleSheet.create({
   // Footer
   footerContainer: {
     position: 'absolute',
-    bottom: 20,
-    left: 30,
-    right: 30,
+    bottom: 16,
+    left: 28,
+    right: 28,
     borderTopWidth: 1,
     borderTopColor: '#CBD5E1',
-    paddingTop: 6,
+    paddingTop: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   footerText: {
-    fontSize: 7,
+    fontSize: 6.5,
     color: '#94A3B8',
   },
 });
@@ -277,6 +323,7 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
   result,
   localImageSrc,
 }) => {
+  const isMultiAngle = Boolean(result.multi_angle && result.multi_angle.total_angles > 1);
   const diseaseKey = result.prediction.toLowerCase();
   const diseaseInfo = DISEASE_MAP[diseaseKey] || {
     code: diseaseKey,
@@ -331,12 +378,12 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
   const ctx = result.symptom_context;
 
   return (
-    <Document title={`DermAI_Report_Scan_${result.id || 'Current'}.pdf`}>
+    <Document title={`DermAI_AI_Analysis_Report_Scan_${result.id || 'Current'}.pdf`}>
       <Page size="A4" style={styles.page}>
         {/* 1. Top-of-page Prominent Medical Disclaimer */}
         <View style={styles.topDisclaimerBox}>
           <Text style={styles.topDisclaimerTitle}>
-            Clinical Screening Notice &mdash; Not an Official Medical Diagnosis
+            Screening Notice &mdash; Not an Official Medical Diagnosis
           </Text>
           <Text style={styles.topDisclaimerText}>
             This is an AI-generated screening result, not a medical diagnosis. It has not been reviewed by a clinician.
@@ -349,7 +396,7 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
         <View style={styles.headerContainer}>
           <View>
             <Text style={styles.brandTitle}>DermAI</Text>
-            <Text style={styles.brandSubtitle}>Multi-Class Skin &amp; Lesion Analysis</Text>
+            <Text style={styles.brandSubtitle}>Deep Learning Skin Lesion Screening System</Text>
           </View>
           <View style={styles.reportMetaRight}>
             <Text style={styles.reportHeading}>AI Analysis Report</Text>
@@ -360,9 +407,11 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
 
         {/* 3. Scan Overview & AI Classification */}
         <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitle}>1. Scan Overview &amp; Primary AI Finding</Text>
+          <Text style={styles.sectionTitle}>
+            1. {isMultiAngle ? 'Multi-Angle Consensus Finding' : 'Scan Overview & Primary AI Finding'}
+          </Text>
           <View style={styles.scanOverviewRow}>
-            {/* Embedded Thumbnail (from local in-memory state) */}
+            {/* Embedded Thumbnail (from local in-memory state or first angle) */}
             {localImageSrc ? (
               <View style={styles.scanImageContainer}>
                 <Image src={localImageSrc} style={styles.scanImage} />
@@ -385,7 +434,9 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
                     {diseaseInfo.categoryBadge} &bull; {diseaseInfo.type}
                   </Text>
                 </View>
-                <Text style={styles.predictionName}>Primary Match: {diseaseInfo.friendlyName}</Text>
+                <Text style={styles.predictionName}>
+                  {isMultiAngle ? 'Consensus Result: ' : 'Primary Match: '}{diseaseInfo.friendlyName}
+                </Text>
                 <Text style={styles.clinicalClassification}>
                   Clinical Category Name: {diseaseInfo.clinicalName} ({diseaseInfo.code})
                 </Text>
@@ -393,7 +444,13 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
 
               <View>
                 <Text style={styles.confidenceLine}>
-                  AI Model Certainty: {confidencePercent}%
+                  {isMultiAngle ? 'Consensus Certainty: ' : 'AI Model Certainty: '}
+                  {confidencePercent}%
+                  {isMultiAngle && result.multi_angle && (
+                    <Text style={{ fontFamily: 'Helvetica', fontSize: 7.5, color: '#475569' }}>
+                      {' '}(Agreement Rate: {Math.round(result.multi_angle.agreement_rate * 100)}%)
+                    </Text>
+                  )}
                 </Text>
                 <Text style={styles.nextStepText}>
                   <Text style={{ fontFamily: 'Helvetica-Bold' }}>Recommended Next Step: </Text>
@@ -404,7 +461,42 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
           </View>
         </View>
 
-        {/* 4. Top-3 Confidence Breakdown (If Low Confidence <70%) */}
+        {/* 4. Multi-Angle Perspectives (If Multi-Angle Scan) */}
+        {isMultiAngle && result.multi_angle && (
+          <View style={styles.sectionCard}>
+            <Text style={styles.sectionTitle}>
+              2. Multi-Angle Evaluation ({result.multi_angle.total_angles} Perspectives)
+            </Text>
+
+            {result.multi_angle.melanoma_safety_override && (
+              <View style={styles.overrideWarningBox}>
+                <Text style={styles.overrideWarningText}>
+                  Safety Notice: Suspicious high-risk Melanoma pattern was detected on one or more angles and has been prioritized in consensus findings.
+                </Text>
+              </View>
+            )}
+
+            <View style={styles.multiAngleGrid}>
+              {(result.multi_angle.angle_breakdown || result.multi_angle.angles || []).map((ang, idx) => {
+                const angKey = ang.prediction.toLowerCase();
+                const angInfo = DISEASE_MAP[angKey] || { friendlyName: ang.prediction };
+                return (
+                  <View key={idx} style={styles.multiAngleItem}>
+                    <Text style={styles.multiAngleLabel}>
+                      Angle #{ang.angle_index || idx + 1}: {ang.label || `Angle ${idx + 1}`}
+                    </Text>
+                    <Text style={styles.multiAnglePrediction}>{angInfo.friendlyName}</Text>
+                    <Text style={styles.multiAngleConfidence}>
+                      Certainty: {Math.round(ang.confidence_score * 100)}%
+                    </Text>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        )}
+
+        {/* 5. Top-3 Confidence Breakdown (If Low Confidence <70%) */}
         {isLowConfidence && (
           <View style={styles.breakdownContainer}>
             <Text style={styles.breakdownTitle}>AI Confidence Breakdown (&lt;70% Certainty)</Text>
@@ -439,9 +531,11 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
           </View>
         )}
 
-        {/* 5. Patient Reported Context */}
+        {/* 6. Patient Reported Context */}
         <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitle}>2. Patient Reported Context</Text>
+          <Text style={styles.sectionTitle}>
+            {isMultiAngle ? '3' : '2'}. Patient Reported Context
+          </Text>
           <View style={styles.contextGrid}>
             <View style={styles.contextItem}>
               <Text style={styles.contextItemLabel}>Duration</Text>
@@ -460,9 +554,11 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
           </View>
         </View>
 
-        {/* 6. Questions to Discuss with Doctor */}
+        {/* 7. Questions to Discuss with Doctor */}
         <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitle}>3. Suggested Discussion Questions for Your Doctor</Text>
+          <Text style={styles.sectionTitle}>
+            {isMultiAngle ? '4' : '3'}. Suggested Discussion Questions for Your Doctor
+          </Text>
           <View style={styles.questionList}>
             {GENERAL_DOCTOR_QUESTIONS.map((q, idx) => (
               <View key={idx} style={styles.questionItem}>
@@ -473,10 +569,10 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
           </View>
         </View>
 
-        {/* 7. Footer */}
+        {/* 8. Footer */}
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>
-            DermAI Screening System &bull; Confidential Patient Report &bull; Not a Clinical Diagnosis
+            DermAI Screening System &bull; Confidential AI Analysis Report &bull; Not a Clinical Diagnosis
           </Text>
           <Text style={styles.footerText}>Page 1 of 1</Text>
         </View>
@@ -486,7 +582,7 @@ export const AnalysisReportDocument: React.FC<AnalysisReportDocumentProps> = ({
 };
 
 /**
- * Generates and downloads the client-side clinical PDF report,
+ * Generates and downloads the client-side AI Analysis Report PDF,
  * and opens it directly in a new browser tab with the native PDF viewer.
  */
 export async function downloadAnalysisReportPdf(
@@ -496,7 +592,7 @@ export async function downloadAnalysisReportPdf(
   const doc = <AnalysisReportDocument result={result} localImageSrc={localImageSrc} />;
   const asPdf = pdf(doc);
   const rawBlob = await asPdf.toBlob();
-  
+
   // Ensure strict application/pdf MIME type
   const pdfBlob = new Blob([rawBlob], { type: 'application/pdf' });
   const url = URL.createObjectURL(pdfBlob);
@@ -514,7 +610,7 @@ export async function downloadAnalysisReportPdf(
   // 2. Trigger direct .pdf file download
   const link = document.createElement('a');
   link.href = url;
-  link.download = `DermAI_Report_Scan_${result.id || 'Skin'}.pdf`;
+  link.download = `DermAI_AI_Analysis_Report_Scan_${result.id || 'Skin'}.pdf`;
   link.target = '_blank';
   document.body.appendChild(link);
   link.click();
