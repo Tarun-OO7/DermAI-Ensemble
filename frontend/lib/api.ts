@@ -41,7 +41,16 @@ export async function analyzeSkinPhoto(
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      const detail = errorData.detail || `Server returned status ${response.status}`;
+      let detail = `Server returned status ${response.status}`;
+      if (typeof errorData.detail === 'string') {
+        detail = errorData.detail;
+      } else if (Array.isArray(errorData.detail)) {
+        detail = errorData.detail.map((e: any) => e.msg || JSON.stringify(e)).join(', ');
+      } else if (errorData.detail && typeof errorData.detail === 'object') {
+        detail = JSON.stringify(errorData.detail);
+      } else if (errorData.message) {
+        detail = errorData.message;
+      }
       throw new ApiError(detail, response.status, 'SERVER_ERROR');
     }
 

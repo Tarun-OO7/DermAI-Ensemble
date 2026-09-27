@@ -116,7 +116,9 @@ class MLService:
         Returns prediction, confidence_score, calibrated probabilities, and base64 heatmap_image.
         """
         if self.efficientnet is None:
-            raise RuntimeError("Model is not loaded. Call load_model() first.")
+            self.load_model()
+        if self.efficientnet is None:
+            raise RuntimeError("Model could not be loaded.")
 
         # Validate tensor shape
         input_size = self.config.get("input_size", 224)
